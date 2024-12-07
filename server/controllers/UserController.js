@@ -1,9 +1,10 @@
 import { Webhook } from "svix"
+import userModel from "../models/userModel.js"
 
 //API Controller Function to manage Clerk User with Database
 //https://localhost:4000/api/user/webhooks
 
-const clerkWebhook = async (req, res) => {
+const clerkWebhooks = async (req, res) => {
     try {
         
         //create a svix intance with clerk webhook secret
@@ -30,7 +31,7 @@ const clerkWebhook = async (req, res) => {
                     }
 
                     await userModel.create(userData)
-                    res.json({ success: true, message: "User created successfully" })
+                    res.json({ })
 
                     break;
                 }
@@ -46,14 +47,14 @@ const clerkWebhook = async (req, res) => {
                     }
 
                     await userModel.findOneAndUpdate({clerkId: data.id}, userData)
-                    res.json({ success: true, message: "User updated successfully" })
+                    res.json({ })
 
                     break;
                 }
                 case "user.deleted":{
 
                     await userModel.findOneAndDelete({clerkId: data.id})
-                    res.json({ success: true, message: "User deleted successfully" })
+                    res.json({ })
                     break;
                 }
             
@@ -68,4 +69,4 @@ const clerkWebhook = async (req, res) => {
     }
 }
 
-export { clerkWebhook }
+export { clerkWebhooks }
